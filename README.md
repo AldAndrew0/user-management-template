@@ -51,7 +51,8 @@ user-management-template/
 ├── .env.example             # Esempio variabili d'ambiente → rinominare in .env
 ├── composer.json            # Dipendenze PHP
 ├── index.php                # Homepage / Dashboard
-└── README.md```
+└── README.md
+```
 
 ---
 
