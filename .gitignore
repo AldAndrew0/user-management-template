@@ -1,0 +1,20 @@
+# - Database credentials:
+
+# 1.  file con le credenziali del database
+config/database.php
+
+# - System files:
+
+# 1. File nascosto che Mac crea automaticamente 
+.DS_Store 
+
+# 2. File nascosto che Windows crea nelle cartelle con immagini
+Thumbs.db
+
+# - Editor files:
+
+# 1. Le impostazioni personali di VS Code
+.vscode/
+
+# 2. Qualsiasi file che finisce in .log (file di errori)
+*.log
