@@ -10,6 +10,8 @@ con le operazioni base: creazione, visualizzazione, modifica ed eliminazione (CR
 
 - **PHP** — logica del backend
 - **MySQL** — database
+- **Composer** — gestore di librerie PHP
+- **vlucas/phpdotenv** — gestione variabili d'ambiente
 - **HTML + CSS + JavaScript** — frontend
 - **Laragon** — ambiente di sviluppo locale
 
@@ -17,7 +19,8 @@ con le operazioni base: creazione, visualizzazione, modifica ed eliminazione (CR
 
 ## 📁 Struttura del progetto
 
-gestionale-template/
+```
+user-management-template/
 │
 ├── assets/                  # File statici (stile, script, immagini)
 │   ├── css/style.css
@@ -25,7 +28,10 @@ gestionale-template/
 │   └── img/
 │
 ├── config/
-│   └── database.php         # Configurazione connessione al database
+│   └── database.example.php # Esempio di configurazione → rinominare in database.php
+│
+├── database/
+│   └── user-management.sql  # Schema del database
 │
 ├── includes/                # Componenti riutilizzabili
 │   ├── header.php
@@ -42,8 +48,10 @@ gestionale-template/
 │       ├── edit.php         # Modifica utente
 │       └── delete.php       # Elimina utente
 │
+├── .env.example             # Esempio variabili d'ambiente → rinominare in .env
+├── composer.json            # Dipendenze PHP
 ├── index.php                # Homepage / Dashboard
-└── README.md
+└── README.md```
 
 ---
 
@@ -54,14 +62,26 @@ gestionale-template/
    git clone https://github.com/AldAndrew0/user-management-template.git
 ```
 
-2. Avvia **Laragon** (Apache + MySQL)
+2. Installa le dipendenze PHP con Composer:
+```bash
+   composer install
+```
 
-3. Importa il database (il file `.sql` si trova nella cartella `/database` — da creare)
+3. Avvia **Laragon** (Apache + MySQL)
 
-4. Rinomina il file `config/database.example.php` in `config/database.php` e inserisci le tue credenziali
+4. Importa il database:
+```bash
+   database/user-management.sql
+```
 
-5. Apri il browser e vai su:
-    http://localhost/user-management-template
+5. Copia il file `.env.example`, rinominalo in `.env` e inserisci le tue credenziali:
+DB_HOST=your_host
+DB_USER=your_username
+DB_PASS=your_password
+DB_NAME=your_database_name
+
+6. Apri il browser e vai su:
+http://localhost/user-management-template
 
 ---
 
@@ -78,6 +98,7 @@ Questo progetto è pensato per essere uno **stampino**. Per adattarlo a un nuovo
 ## 📌 Funzionalità previste
 
 - [x] Struttura base del progetto
+- [x] Configurazione database con variabili d'ambiente
 - [ ] Connessione al database
 - [ ] Sistema di autenticazione (login/logout)
 - [ ] CRUD utenti completo
@@ -88,4 +109,4 @@ Questo progetto è pensato per essere uno **stampino**. Per adattarlo a un nuovo
 
 ## 👤 Autore
 
-**Andrea** 
+**Andrea**
