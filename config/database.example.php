@@ -1,16 +1,17 @@
 <?php
 
-// Database configuration
-// Copy this file, rename it to database.php and fill in your credentials
-define('DB_HOST', 'your_host');
-define('DB_USER', 'your_username');
-define('DB_PASS', 'your_password');
-define('DB_NAME', 'your_database_name');
+require_once __DIR__ . '/../vendor/autoload.php';
 
-// Create connection
-$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
 
-// Check connection
+$connection = mysqli_connect(
+    $_ENV['DB_HOST'],
+    $_ENV['DB_USER'],
+    $_ENV['DB_PASS'],
+    $_ENV['DB_NAME']
+);
+
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
