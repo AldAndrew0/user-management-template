@@ -1,7 +1,17 @@
 # - Database credentials:
 
-# 1.  file con le credenziali del database
+# 1. File con le credenziali del database
 config/database.php
+
+# - Environment variables:
+
+# 1. File con le variabili d'ambiente
+.env
+
+# - Composer:
+
+# 1. Cartella con le librerie installate (si ricrea con "composer install")
+vendor/
 
 # - System files:
 
