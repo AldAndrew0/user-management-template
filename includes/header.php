@@ -12,7 +12,7 @@ session_start();
     <title>Gestionale Template</title>
 
     <!-- Main stylesheet -->
-    <link rel="stylesheet" href="/user-management-template/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
 <body>
