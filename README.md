@@ -100,11 +100,12 @@ Questo progetto è pensato per essere uno **stampino**. Per adattarlo a un nuovo
 
 - [x] Struttura base del progetto
 - [x] Configurazione database con variabili d'ambiente
-- [ ] Connessione al database
-- [ ] Sistema di autenticazione (login/logout)
-- [ ] CRUD utenti completo
+- [x] Connessione al database
+- [x] Sistema di autenticazione (login/logout)
+- [x] CRUD utenti completo
+- [x] Gestione sessioni
 - [ ] Validazione dei form
-- [ ] Gestione sessioni
+- [ ] Migrazione a Laravel
 
 ---
 
