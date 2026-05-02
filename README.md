@@ -1,114 +1,115 @@
-# 🗂️ Gestionale Template
+# 🗂️ Management System Template
 
-Uno stampino (boilerplate) riutilizzabile per costruire gestionali web in PHP puro.
-Permette di gestire utenti, studenti, clienti o qualsiasi tipo di entità
-con le operazioni base: creazione, visualizzazione, modifica ed eliminazione (CRUD).
+A reusable boilerplate for building web management systems in pure PHP.
+Allows you to manage users, students, clients, or any type of entity
+with the basic operations: create, read, update, and delete (CRUD).
 
 ---
 
-## 🚀 Tecnologie utilizzate
+## 🚀 Technologies Used
 
-- **PHP** — logica del backend
+- **PHP** — backend logic
 - **MySQL** — database
-- **Composer** — gestore di librerie PHP
-- **vlucas/phpdotenv** — gestione variabili d'ambiente
+- **Composer** — PHP package manager
+- **vlucas/phpdotenv** — environment variables management
 - **HTML + CSS + JavaScript** — frontend
-- **Laragon** — ambiente di sviluppo locale
+- **Laragon** — local development environment
 
 ---
 
-## 📁 Struttura del progetto
+## 📁 Project Structure
 
 ```
 user-management-template/
 │
-├── assets/                  # File statici (stile, script, immagini)
+├── assets/                  # Static files (styles, scripts, images)
 │   ├── css/style.css
 │   ├── js/main.js
 │   └── img/
 │
 ├── config/
-│   └── database.example.php # Esempio di configurazione → rinominare in database.php
+│   └── database.php         # Database connection configuration
 │
 ├── database/
-│   └── user-management.sql  # Schema del database
+│   └── user-management.sql  # Database schema
 │
-├── includes/                # Componenti riutilizzabili
+├── includes/                # Reusable components
+│   ├── auth.php             # Page protection — redirects to login if not authenticated
 │   ├── header.php
 │   ├── navbar.php
 │   └── footer.php
 │
 ├── pages/
-│   ├── auth/                # Login e logout
+│   ├── auth/                # Login and logout
 │   │   ├── login.php
 │   │   └── logout.php
-│   └── Users/               # CRUD utenti
-│       ├── index.php        # Lista utenti
-│       ├── create.php       # Crea utente
-│       ├── edit.php         # Modifica utente
-│       └── delete.php       # Elimina utente
+│   └── Users/               # Users CRUD
+│       ├── index.php        # Users list
+│       ├── create.php       # Create user
+│       ├── edit.php         # Edit user
+│       └── delete.php       # Delete user
 │
-├── .env.example             # Esempio variabili d'ambiente → rinominare in .env
-├── composer.json            # Dipendenze PHP
+├── .env.example             # Environment variables example → rename to .env
+├── composer.json            # PHP dependencies
 ├── index.php                # Homepage / Dashboard
 └── README.md
 ```
 
 ---
 
-## ⚙️ Installazione
+## ⚙️ Installation
 
-1. Clona la repository nella cartella `www` di Laragon:
+1. Clone the repository into Laragon's `www` folder:
 ```bash
    git clone https://github.com/AldAndrew0/user-management-template.git
 ```
 
-2. Installa le dipendenze PHP con Composer:
+2. Install PHP dependencies with Composer:
 ```bash
    composer install
 ```
 
-3. Avvia **Laragon** (Apache + MySQL)
+3. Start **Laragon** (Apache + MySQL)
 
-4. Importa il database:
+4. Import the database:
+   database/user-management.sql
+
+5. Copy the `.env.example` file, rename it to `.env` and fill in your credentials:
+   DB_HOST=your_host
+   DB_USER=your_username
+   DB_PASS=your_password
+   DB_NAME=your_database_name
+
+6. Open your browser and go to:
 ```bash
-   http://user-management-template.test/
+http://user-management-template.test/
 ```
 
-5. Copia il file `.env.example`, rinominalo in `.env` e inserisci le tue credenziali:
-DB_HOST=your_host
-DB_USER=your_username
-DB_PASS=your_password
-DB_NAME=your_database_name
+---
 
-6. Apri il browser e vai su:
-http://localhost/user-management-template
+## 🔄 How to Reuse This Template
+
+This project is designed to be a **boilerplate**. To adapt it to a new management system:
+
+1. Rename the `pages/Users/` folder with your entity name (e.g. `Students/`, `Clients/`)
+2. Update variable names and database fields
+3. Change the title and theme in `includes/header.php`
 
 ---
 
-## 🔄 Come riutilizzare questo template
+## 📌 Features
 
-Questo progetto è pensato per essere uno **stampino**. Per adattarlo a un nuovo gestionale:
-
-1. Rinomina la cartella `pages/Users/` con il nome della tua entità (es. `Studenti/`, `Clienti/`)
-2. Aggiorna i nomi delle variabili e i campi del database
-3. Cambia il titolo e il tema grafico in `includes/header.php`
-
----
-
-## 📌 Funzionalità previste
-
-- [x] Struttura base del progetto
-- [x] Configurazione database con variabili d'ambiente
-- [x] Connessione al database
-- [x] Sistema di autenticazione (login/logout)
-- [x] CRUD utenti completo
-- [x] Gestione sessioni
-- [ ] Validazione dei form
-- [ ] Migrazione a Laravel
+- [x] Base project structure
+- [x] Database configuration with environment variables
+- [x] Database connection
+- [x] Authentication system (login/logout)
+- [x] Full users CRUD
+- [x] Session management
+- [x] Form validation
+- [ ] Migration to Laravel
 
 ---
 
-## 👤 Autore
+## 👤 Author
 
 **Andrea**
