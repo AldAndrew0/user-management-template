@@ -1,8 +1,3 @@
-# - Database credentials:
-
-# 1. File con le credenziali del database
-config/database.php
-
 # - Environment variables:
 
 # 1. File con le variabili d'ambiente
