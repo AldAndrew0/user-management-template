@@ -1,5 +1,8 @@
 <?php
 
+// Start session
+session_start();
+
 // Load Composer dependencies (including phpdotenv)
 require_once __DIR__ . '/../vendor/autoload.php';
 

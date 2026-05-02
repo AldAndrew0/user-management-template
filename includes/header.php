@@ -1,8 +1,3 @@
-<?php
-// Start the session to manage user login state
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="it">
 
