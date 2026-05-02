@@ -16,22 +16,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
     $password = $_POST['password'];
 
-    // Find user by email
-    $stmt = mysqli_prepare($connection, "SELECT * FROM users WHERE email = ?");
-    mysqli_stmt_bind_param($stmt, 's', $email);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $user = mysqli_fetch_assoc($result);
-
-    // Check if user exists and password is correct
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_name'] = $user['name'];
-        $_SESSION['user_role'] = $user['role'];
-        header('Location: /');
-        exit;
+    // Validation
+    if (empty($email)) {
+        $error = 'Email is required.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = 'Invalid email format.';
+    } elseif (empty($password)) {
+        $error = 'Password is required.';
     } else {
-        $error = 'Invalid email or password.';
+        try {
+            // Find user by email
+            $stmt = mysqli_prepare($connection, "SELECT * FROM users WHERE email = ?");
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            $user = mysqli_fetch_assoc($result);
+
+            // Check if user exists and password is correct
+            if ($user && password_verify($password, $user['password'])) {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_name'] = $user['name'];
+                $_SESSION['user_role'] = $user['role'];
+                header('Location: /');
+                exit;
+            } else {
+                $error = 'Invalid email or password.';
+            }
+        } catch (Exception $e) {
+            $error = 'Database error. Please try again.';
+        }
     }
 }
 ?>

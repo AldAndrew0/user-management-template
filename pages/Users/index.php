@@ -20,6 +20,8 @@ $result = mysqli_query($connection, "SELECT * FROM users ORDER BY created_at DES
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>Surname</th>
+                    <th>Nickname</th>
                     <th>Email</th>
                     <th>Role</th>
                     <th>Created At</th>
@@ -31,6 +33,8 @@ $result = mysqli_query($connection, "SELECT * FROM users ORDER BY created_at DES
                     <tr>
                         <td><?php echo $user['id']; ?></td>
                         <td><?php echo $user['name']; ?></td>
+                        <td><?php echo $user['surname']; ?></td>
+                        <td><?php echo $user['nickname'] ?? '—'; ?></td>
                         <td><?php echo $user['email']; ?></td>
                         <td><?php echo $user['role']; ?></td>
                         <td><?php echo $user['created_at']; ?></td>
