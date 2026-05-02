@@ -10,30 +10,53 @@ $success = '';
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name']);
+    $surname = trim($_POST['surname']);
+    $nickname = trim($_POST['nickname']);
     $email = trim($_POST['email']);
     $password = $_POST['password'];
     $role = $_POST['role'];
 
-    // Check if email already exists
-    $stmt = mysqli_prepare($connection, "SELECT id FROM users WHERE email = ?");
-    mysqli_stmt_bind_param($stmt, 's', $email);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_store_result($stmt);
-
-    if (mysqli_stmt_num_rows($stmt) > 0) {
-        $error = 'Email already exists.';
+    // Validation
+    if (empty($name)) {
+        $error = 'Name is required.';
+    } elseif (strlen($name) < 2) {
+        $error = 'Name must be at least 2 characters.';
+    } elseif (empty($surname)) {
+        $error = 'Surname is required.';
+    } elseif (strlen($surname) < 2) {
+        $error = 'Surname must be at least 2 characters.';
+    } elseif (empty($email)) {
+        $error = 'Email is required.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = 'Invalid email format.';
+    } elseif (empty($password)) {
+        $error = 'Password is required.';
+    } elseif (strlen($password) < 8) {
+        $error = 'Password must be at least 8 characters.';
+    } elseif (!in_array($role, ['user', 'admin'])) {
+        $error = 'Invalid role.';
     } else {
-        // Hash the password before saving
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        try {
+            // Check if email already exists
+            $stmt = mysqli_prepare($connection, "SELECT id FROM users WHERE email = ?");
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_store_result($stmt);
 
-        // Insert the new user
-        $stmt = mysqli_prepare($connection, "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
-        mysqli_stmt_bind_param($stmt, 'ssss', $name, $email, $hashed_password, $role);
+            if (mysqli_stmt_num_rows($stmt) > 0) {
+                $error = 'Email already exists.';
+            } else {
+                // Hash the password before saving
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        if (mysqli_stmt_execute($stmt)) {
-            $success = 'User created successfully.';
-        } else {
-            $error = 'Something went wrong. Please try again.';
+                // Insert the new user
+                $stmt = mysqli_prepare($connection, "INSERT INTO users (name, surname, nickname, email, password, role) VALUES (?, ?, ?, ?, ?, ?)");
+                mysqli_stmt_bind_param($stmt, 'ssssss', $name, $surname, $nickname, $email, $hashed_password, $role);
+                mysqli_stmt_execute($stmt);
+                $success = 'User created successfully.';
+            }
+        } catch (Exception $e) {
+            $error = 'Database error. Please try again.';
         }
     }
 }
@@ -60,6 +83,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="surname">Surname</label>
+                    <input type="text" id="surname" name="surname" required>
+                </div>
+                <div class="form-group">
+                    <label for="nickname">Nickname</label>
+                    <input type="text" id="nickname" name="nickname">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>

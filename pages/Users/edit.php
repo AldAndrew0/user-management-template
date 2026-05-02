@@ -32,37 +32,62 @@ if (!$user) {
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name']);
+    $surname = trim($_POST['surname']);
+    $nickname = trim($_POST['nickname']);
     $email = trim($_POST['email']);
     $role = $_POST['role'];
     $password = $_POST['password'];
 
-    // Check if email already exists for another user
-    $stmt = mysqli_prepare($connection, "SELECT id FROM users WHERE email = ? AND id != ?");
-    mysqli_stmt_bind_param($stmt, 'si', $email, $id);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_store_result($stmt);
-
-    if (mysqli_stmt_num_rows($stmt) > 0) {
-        $error = 'Email already exists.';
+    // Validation
+    if (empty($name)) {
+        $error = 'Name is required.';
+    } elseif (strlen($name) < 2) {
+        $error = 'Name must be at least 2 characters.';
+    } elseif (empty($surname)) {
+        $error = 'Surname is required.';
+    } elseif (strlen($surname) < 2) {
+        $error = 'Surname must be at least 2 characters.';
+    } elseif (empty($email)) {
+        $error = 'Email is required.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = 'Invalid email format.';
+    } elseif (!empty($password) && strlen($password) < 8) {
+        $error = 'Password must be at least 8 characters.';
+    } elseif (!in_array($role, ['user', 'admin'])) {
+        $error = 'Invalid role.';
     } else {
-        // Update with or without new password
-        if (!empty($password)) {
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = mysqli_prepare($connection, "UPDATE users SET name = ?, email = ?, password = ?, role = ? WHERE id = ?");
-            mysqli_stmt_bind_param($stmt, 'ssssi', $name, $email, $hashed_password, $role, $id);
-        } else {
-            $stmt = mysqli_prepare($connection, "UPDATE users SET name = ?, email = ?, role = ? WHERE id = ?");
-            mysqli_stmt_bind_param($stmt, 'sssi', $name, $email, $role, $id);
-        }
+        try {
+            // Check if email already exists for another user
+            $stmt = mysqli_prepare($connection, "SELECT id FROM users WHERE email = ? AND id != ?");
+            mysqli_stmt_bind_param($stmt, 'si', $email, $id);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_store_result($stmt);
 
-        if (mysqli_stmt_execute($stmt)) {
-            $success = 'User updated successfully.';
-            // Refresh user data
-            $user['name'] = $name;
-            $user['email'] = $email;
-            $user['role'] = $role;
-        } else {
-            $error = 'Something went wrong. Please try again.';
+            if (mysqli_stmt_num_rows($stmt) > 0) {
+                $error = 'Email already exists.';
+            } else {
+                // Update with or without new password
+                if (!empty($password)) {
+                    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                    $stmt = mysqli_prepare($connection, "UPDATE users SET name = ?, surname = ?, nickname = ?, email = ?, password = ?, role = ? WHERE id = ?");
+                    mysqli_stmt_bind_param($stmt, 'ssssssi', $name, $surname, $nickname, $email, $hashed_password, $role, $id);
+                } else {
+                    $stmt = mysqli_prepare($connection, "UPDATE users SET name = ?, surname = ?, nickname = ?, email = ?, role = ? WHERE id = ?");
+                    mysqli_stmt_bind_param($stmt, 'sssssi', $name, $surname, $nickname, $email, $role, $id);
+                }
+
+                mysqli_stmt_execute($stmt);
+                $success = 'User updated successfully.';
+
+                // Refresh user data
+                $user['name'] = $name;
+                $user['surname'] = $surname;
+                $user['nickname'] = $nickname;
+                $user['email'] = $email;
+                $user['role'] = $role;
+            }
+        } catch (Exception $e) {
+            $error = 'Database error. Please try again.';
         }
     }
 }
@@ -89,6 +114,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" value="<?php echo $user['name']; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="surname">Surname</label>
+                    <input type="text" id="surname" name="surname" value="<?php echo $user['surname']; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="nickname">Nickname</label>
+                    <input type="text" id="nickname" name="nickname" value="<?php echo $user['nickname']; ?>">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>

@@ -72,7 +72,7 @@ user-management-template/
 
 4. Importa il database:
 ```bash
-   database/user-management.sql
+   http://user-management-template.test/
 ```
 
 5. Copia il file `.env.example`, rinominalo in `.env` e inserisci le tue credenziali:
